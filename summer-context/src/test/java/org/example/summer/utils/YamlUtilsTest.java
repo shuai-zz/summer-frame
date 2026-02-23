@@ -1,5 +1,6 @@
-package org.example.utils;
+package org.example.summer.utils;
 
+import org.example.utils.YamlUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

@@ -1,7 +1,10 @@
 package org.example.scan.nested;
 
-public class OuterBean {
+import org.example.annotation.Component;
 
+@Component
+public class OuterBean {
+    @Component
     public static class NestedBean {
 
     }
