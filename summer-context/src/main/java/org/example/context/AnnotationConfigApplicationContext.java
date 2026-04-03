@@ -82,6 +82,7 @@ public class AnnotationConfigApplicationContext {
 
         // create BeanName and detect circular dependencies
         this.creatingBeanName = new HashSet<>();
+        /*------------------------- Hard Dependency Injection -------------------------------*/
         // create a bean of type @Configuration
         this.beans.values().stream()
                 // filter out @Configuration
@@ -95,6 +96,11 @@ public class AnnotationConfigApplicationContext {
 
         // create other normal beans
         createNormalBeans();
+        /*------------------------- Soft Dependency Injection -------------------------------*/
+        // inject dependencies by field and setter
+        this.beans.values().forEach(this::injectBean);
+        // call init method
+        this.beans.values().forEach(this::initBean);
 
         if (logger.isDebugEnabled()) {
             this.beans.values().stream()
@@ -263,6 +269,24 @@ public class AnnotationConfigApplicationContext {
             }
         }
         return defs;
+    }
+
+    /**
+     * inject dependency without calling init method
+     */
+    void injectBean(BeanDefinition def) {
+        try {
+            injectProperties(def, def.getBeanClass(), def.getInstance());
+        } catch (ReflectiveOperationException e) {
+            throw new BeanCreationException(e);
+        }
+    }
+
+    /**
+     * call init method
+     */
+    void initBean(BeanDefinition def) {
+        callMethod(def.getInstance(), def.getInitMethod(), def.getInitMethodName());
     }
 
     /**
@@ -679,6 +703,26 @@ public class AnnotationConfigApplicationContext {
     @Nullable
     @SuppressWarnings("unchecked")
     protected <T> List<T> findBeans(Class<T> requiredType) {
-        return findBeanDefinitions(requiredType).stream().map(def->(T)def.getRequiredInstance()).toList();
+        return findBeanDefinitions(requiredType).stream().map(def -> (T) def.getRequiredInstance()).toList();
+    }
+
+    private void callMethod(Object beanInstance, Method method, String namedMethod) {
+        // call init/destroy method
+        if (method != null) {
+            try {
+                method.invoke(beanInstance);
+            } catch (ReflectiveOperationException e) {
+                throw new BeanCreationException(e);
+            }
+        } else if (namedMethod != null) {
+            // find initMethod/destroyMethod="xyz", CAUTION: find in actual type
+            Method named = ClassUtils.getNamedMethod(beanInstance.getClass(), namedMethod);
+            named.setAccessible(true);
+            try {
+                named.invoke(beanInstance);
+            } catch (ReflectiveOperationException e) {
+                throw new BeanCreationException(e);
+            }
+        }
     }
 }
