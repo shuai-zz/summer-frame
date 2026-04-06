@@ -11,6 +11,10 @@ import org.example.scan.nested.OuterBean;
 import org.example.scan.primary.PersonBean;
 import org.example.scan.primary.StudentBean;
 import org.example.scan.primary.TeacherBean;
+import org.example.scan.proxy.InjectProxyOnConstructorBean;
+import org.example.scan.proxy.InjectProxyOnPropertyBean;
+import org.example.scan.proxy.OriginBean;
+import org.example.scan.proxy.SecondProxyBean;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,8 +24,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AnnotationConfigApplicationContextTest {
     @Test
+    public void testProxy(){
+        var ctx=new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
+        // test proxy
+        OriginBean proxy=ctx.getBean(OriginBean.class);
+        assertSame(SecondProxyBean.class, proxy.getClass());
+        assertEquals("Scan App", proxy.getName());
+        assertEquals("v1.0", proxy.getVersion());
+        // make sure proxy. field is not injected
+        assertNull(proxy.name);
+        assertNull(proxy.version);
+
+        // other beans are injected proxy instance
+        InjectProxyOnPropertyBean inject1 = ctx.getBean(InjectProxyOnPropertyBean.class);
+        InjectProxyOnConstructorBean inject2 = ctx.getBean(InjectProxyOnConstructorBean.class);
+        assertSame(proxy, inject1.injected);
+        assertSame(proxy, inject2.injected);
+    }
+    @Test
     public void testAnnotationConfigApplicationContext() {
         var ctx=new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
+
+
 
         // @CustomAnnotation
         assertNotNull(ctx.findBeanDefinition(CustomAnnotationBean.class));

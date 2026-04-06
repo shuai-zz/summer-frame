@@ -7,6 +7,6 @@ import org.example.imported.LocalDateConfiguration;
 import org.example.imported.ZonedDateConfiguration;
 
 @ComponentScan
-@Import({LocalDateConfiguration.class, ZonedDateConfiguration.class})
+//@Import({LocalDateConfiguration.class, ZonedDateConfiguration.class})
 public class ScanApplication {
 }
