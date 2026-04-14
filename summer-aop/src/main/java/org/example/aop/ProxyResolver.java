@@ -18,6 +18,17 @@ public class ProxyResolver {
     // ByteBuddy Instance
     final ByteBuddy byteBuddy=new ByteBuddy();
 
+    private static ProxyResolver INSTANCE=null;
+    public static ProxyResolver getInstance(){
+        if(INSTANCE==null){
+            INSTANCE=new ProxyResolver();
+        }
+        return INSTANCE;
+    }
+
+    public ProxyResolver() {
+    }
+
     // Take in the original Bean and the interceptor, returns the proxied instance
     @SuppressWarnings("unchecked")
     public <T> T createProxy(T bean, InvocationHandler handler){
