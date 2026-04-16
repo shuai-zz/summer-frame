@@ -61,7 +61,7 @@ public class BeanRowMapper<T> implements RowMapper<T>{
             bean=this.constructor.newInstance();
             ResultSetMetaData meta = rs.getMetaData();
             int columns = meta.getColumnCount();
-            for (int i = 1; i < columns; i++) {
+            for (int i = 1; i <= columns; i++) {
                 String label = meta.getColumnLabel(i);
                 Method method = this.methods.get(label);
                 if(method!=null){
