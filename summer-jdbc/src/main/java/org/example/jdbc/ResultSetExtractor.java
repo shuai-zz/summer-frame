@@ -1,0 +1,16 @@
+package org.example.jdbc;
+
+import jakarta.annotation.Nullable;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * @author zhaoshuai
+ */
+@FunctionalInterface
+public interface ResultSetExtractor<T> {
+
+    @Nullable
+    T extractData(ResultSet rs) throws SQLException;
+}
