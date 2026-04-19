@@ -1,6 +1,7 @@
 package org.example.jdbc;
 
 import org.example.exception.DataAccessException;
+import org.example.jdbc.tx.TransactionalUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -115,6 +116,15 @@ public class JdbcTemplate {
     }
 
     public <T> T execute(ConnectionCallback<T> action) throws DataAccessException {
+        // try to get current transaction connection
+        Connection current = TransactionalUtils.getCurrentConnection();
+        if(current!=null){
+            try{
+                return action.doInConnection(current);
+            }catch (SQLException e){
+                throw new DataAccessException(e);
+            }
+        }
         // get new connection
         try (Connection newConn = dataSource.getConnection()) {
             final boolean autoCommit = newConn.getAutoCommit();

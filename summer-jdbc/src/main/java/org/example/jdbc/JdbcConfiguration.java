@@ -6,6 +6,9 @@ import com.itranswarp.summer.annotation.Configuration;
 import com.itranswarp.summer.annotation.Value;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.example.jdbc.tx.DataSourceTransactionManager;
+import org.example.jdbc.tx.PlatformTransactionManager;
+import org.example.jdbc.tx.TransactionalBeanPostProcessor;
 
 import javax.sql.DataSource;
 
@@ -24,13 +27,13 @@ public class JdbcConfiguration {
             @Value("${summer.datasource.maximum-pool-size:20}") int maximumPoolSize,
             @Value("${summer.datasource.minimum-pool-size:1}") int minimumPoolSize,
             @Value("${summer.datasource.connection-timeout:30000}") int connTimeout
-    ){
-        var config=new HikariConfig();
+    ) {
+        var config = new HikariConfig();
         config.setAutoCommit(false);
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
-        if(driver!=null){
+        if (driver != null) {
             config.setDriverClassName(driver);
         }
         config.setMaximumPoolSize(maximumPoolSize);
@@ -40,7 +43,17 @@ public class JdbcConfiguration {
     }
 
     @Bean
-    JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource){
+    JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    TransactionalBeanPostProcessor transactionalBeanPostProcessor() {
+        return new TransactionalBeanPostProcessor();
+    }
+
+    @Bean
+    PlatformTransactionManager platformTransactionManager(@Autowired DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
