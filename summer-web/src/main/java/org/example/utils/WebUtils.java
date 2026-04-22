@@ -1,11 +1,10 @@
 package org.example.utils;
 
-import com.itranswarp.summer.context.ApplicationContextUtils;
-import com.itranswarp.summer.io.PropertyResolver;
-import com.itranswarp.summer.utils.ClassPathUtils;
-import com.itranswarp.summer.utils.YamlUtils;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRegistration;
+import org.example.context.ApplicationContextUtils;
+import org.example.io.PropertyResolver;
 import org.example.web.DispatcherServlet;
 import org.example.webapp.WebAppConfig;
 import org.slf4j.Logger;
@@ -25,9 +24,9 @@ public class WebUtils {
     static final String CONFIG_APP_PROP="/application.properties";
 
     public static void registerDispatcherServlet(ServletContext servletContext, PropertyResolver propertyResolver){
-        DispatcherServlet dispathcerServlet = new DispatcherServlet(ApplicationContextUtils.getRequiredApplicationContext(), propertyResolver);
-        logger.info("register servlet {} for URL '/'", dispathcerServlet.getClass().getName());
-        ServletRegistration.Dynamic dispatcherReg = servletContext.addServlet("dispatcherServlet", dispathcerServlet);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(ApplicationContextUtils.getRequiredApplicationContext(), propertyResolver);
+        logger.info("register servlet {} for URL '/'", dispatcherServlet.getClass().getName());
+        ServletRegistration.Dynamic dispatcherReg = servletContext.addServlet("dispatcherServlet", dispatcherServlet);
         dispatcherReg.addMapping("/");
         dispatcherReg.setLoadOnStartup(0);
     }

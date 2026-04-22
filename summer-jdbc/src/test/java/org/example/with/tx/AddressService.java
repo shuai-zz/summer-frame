@@ -1,8 +1,8 @@
 package org.example.with.tx;
 
-import com.itranswarp.summer.annotation.Autowired;
-import com.itranswarp.summer.annotation.Component;
 import org.example.JdbcTestBase;
+import org.example.annotation.Autowired;
+import org.example.annotation.Component;
 import org.example.annotation.Transactional;
 import org.example.jdbc.JdbcTemplate;
 
