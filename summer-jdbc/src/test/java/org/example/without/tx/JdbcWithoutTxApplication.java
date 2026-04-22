@@ -1,8 +1,9 @@
 package org.example.without.tx;
 
-import com.itranswarp.summer.annotation.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.example.annotation.*;
+
 import org.example.jdbc.JdbcTemplate;
 
 import javax.sql.DataSource;

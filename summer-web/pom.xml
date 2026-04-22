@@ -12,7 +12,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.itranswarp.summer</groupId>
+            <groupId>com.example</groupId>
             <artifactId>summer-context</artifactId>
             <version>1.0.6</version>
         </dependency>

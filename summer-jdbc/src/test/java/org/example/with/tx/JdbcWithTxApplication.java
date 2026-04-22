@@ -1,8 +1,9 @@
 package org.example.with.tx;
 
-import com.itranswarp.summer.annotation.ComponentScan;
-import com.itranswarp.summer.annotation.Configuration;
-import com.itranswarp.summer.annotation.Import;
+
+import org.example.annotation.ComponentScan;
+import org.example.annotation.Configuration;
+import org.example.annotation.Import;
 import org.example.jdbc.JdbcConfiguration;
 
 @ComponentScan

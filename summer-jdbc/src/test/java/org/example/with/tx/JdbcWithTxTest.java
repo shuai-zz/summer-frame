@@ -1,7 +1,7 @@
 package org.example.with.tx;
 
-import com.itranswarp.summer.context.AnnotationConfigApplicationContext;
 import org.example.JdbcTestBase;
+import org.example.context.AnnotationConfigApplicationContext;
 import org.example.exception.TransactionException;
 import org.example.jdbc.JdbcTemplate;
 import org.junit.jupiter.api.Test;

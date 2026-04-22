@@ -1,6 +1,5 @@
 package org.example.exception;
 
-import com.itranswarp.summer.exception.NestedRuntimeException;
 
 /**
  * @author zhaoshuai
