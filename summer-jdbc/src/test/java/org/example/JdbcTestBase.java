@@ -1,6 +1,6 @@
 package org.example;
 
-import com.itranswarp.summer.io.PropertyResolver;
+import org.example.io.PropertyResolver;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;

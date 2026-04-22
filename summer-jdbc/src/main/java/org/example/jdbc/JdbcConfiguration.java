@@ -1,11 +1,11 @@
 package org.example.jdbc;
 
-import com.itranswarp.summer.annotation.Autowired;
-import com.itranswarp.summer.annotation.Bean;
-import com.itranswarp.summer.annotation.Configuration;
-import com.itranswarp.summer.annotation.Value;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.example.annotation.Autowired;
+import org.example.annotation.Bean;
+import org.example.annotation.Configuration;
+import org.example.annotation.Value;
 import org.example.jdbc.tx.DataSourceTransactionManager;
 import org.example.jdbc.tx.PlatformTransactionManager;
 import org.example.jdbc.tx.TransactionalBeanPostProcessor;

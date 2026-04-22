@@ -1,11 +1,12 @@
 package org.example.web;
 
-import com.itranswarp.summer.context.ApplicationContext;
-import com.itranswarp.summer.io.PropertyResolver;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.context.ApplicationContext;
+import org.example.io.PropertyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

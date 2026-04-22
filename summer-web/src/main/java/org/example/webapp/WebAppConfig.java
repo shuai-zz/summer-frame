@@ -1,8 +1,8 @@
 package org.example.webapp;
 
 
-import com.itranswarp.summer.annotation.ComponentScan;
-import com.itranswarp.summer.annotation.Configuration;
+import org.example.annotation.ComponentScan;
+import org.example.annotation.Configuration;
 
 /**
  * @author zhaoshuai
