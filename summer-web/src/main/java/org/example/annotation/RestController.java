@@ -1,6 +1,5 @@
 package org.example.annotation;
 
-import com.itranswarp.summer.annotation.Component;
 
 import java.lang.annotation.*;
 

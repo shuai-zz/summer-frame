@@ -19,8 +19,8 @@ public class WebMvcConfiguration {
     /**
      * set by web listener
      */
-    static void setServletContext(ServletContext servletContext) {
-        WebMvcConfiguration.servletContext = servletContext;
+    public static void setServletContext(ServletContext ctx) {
+        servletContext = ctx;
     }
 
     @Bean(initMethod = "init")
