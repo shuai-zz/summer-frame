@@ -7,7 +7,7 @@ import org.example.context.AnnotationConfigApplicationContext;
 import org.example.context.ApplicationContext;
 import org.example.exception.NestedRuntimeException;
 import org.example.io.PropertyResolver;
-import org.example.utils.WebUtils;
+import org.example.web.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,16 +28,12 @@ public class ContextLoaderListener implements ServletContextListener {
         ApplicationContext applicationContext = createApplicationContext(servletContext.getInitParameter("configuration"), propertyResolver);
         // register DispatcherServlet
         WebUtils.registerDispatcherServlet(servletContext, propertyResolver);
+        // register filters
+        WebUtils.registerFilters(servletContext);
 
         servletContext.setAttribute("applicationContext", applicationContext);
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        if(sce.getServletContext().getAttribute("applicationContext") instanceof ApplicationContext applicationContext){
-            applicationContext.close();
-        }
-    }
 
     ApplicationContext createApplicationContext(String configClassName, PropertyResolver propertyResolver){
         logger.info("init ApplicationContext by configuration: {}", configClassName);

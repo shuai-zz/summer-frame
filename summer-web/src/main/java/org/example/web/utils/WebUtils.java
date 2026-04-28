@@ -1,25 +1,27 @@
-package org.example.utils;
+package org.example.web.utils;
 
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.*;
+import org.example.context.ApplicationContext;
 import org.example.context.ApplicationContextUtils;
 import org.example.io.PropertyResolver;
+import org.example.utils.ClassPathUtils;
+import org.example.utils.YamlUtils;
 import org.example.web.DispatcherServlet;
-import org.example.webapp.WebAppConfig;
+import org.example.web.FilterRegistrationBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author zhaoshuai
  */
 public class WebUtils {
-    static final Logger logger= LoggerFactory.getLogger(WebAppConfig.class);
+    public static final String DEFAULT_PARAM_VALUE="\0\t\0\t\0";
+    static final Logger logger= LoggerFactory.getLogger(WebUtils.class);
     static final String CONFIG_APP_YAML="/application.yml";
     static final String CONFIG_APP_PROP="/application.properties";
 
@@ -29,6 +31,21 @@ public class WebUtils {
         ServletRegistration.Dynamic dispatcherReg = servletContext.addServlet("dispatcherServlet", dispatcherServlet);
         dispatcherReg.addMapping("/");
         dispatcherReg.setLoadOnStartup(0);
+    }
+
+    public static void registerFilters(ServletContext servletContext){
+        ApplicationContext applicationContext = ApplicationContextUtils.getRequiredApplicationContext();
+        for (FilterRegistrationBean filterRegBean : applicationContext.getBeans(FilterRegistrationBean.class)) {
+            List<String> urlPatterns = filterRegBean.getUrlPatterns();
+            if(urlPatterns==null||urlPatterns.isEmpty()){
+                throw new IllegalArgumentException("No url patterns for {}"+filterRegBean.getClass().getName());
+            }
+            Filter filter = Objects.requireNonNull(filterRegBean.getFilter(), "FilterRegistrationBean.getFilter() must not return null");
+            logger.info("register filter '{}' {} for URLs: {}", filterRegBean.getName(), filter.getClass().getName(), String.join(", ",urlPatterns));
+            var filterReg = servletContext.addFilter(filterRegBean.getName(), filter);
+            filterReg.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, urlPatterns.toArray(String[]::new));
+
+        }
     }
 
     /**

@@ -1,0 +1,16 @@
+package org.example.annotation;
+
+import org.example.web.utils.WebUtils;
+
+import java.lang.annotation.*;
+
+/**
+ * @author zhaoshuai
+ */
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface RequestParam {
+    String value();
+    String defaultValue() default WebUtils.DEFAULT_PARAM_VALUE;
+}
