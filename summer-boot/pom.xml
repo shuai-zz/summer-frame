@@ -12,13 +12,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.itranswarp.summer</groupId>
+            <groupId>com.example</groupId>
             <artifactId>summer-web</artifactId>
             <version>1.0.6</version>
         </dependency>
 
         <dependency>
-            <groupId>com.itranswarp.summer</groupId>
+            <groupId>com.example</groupId>
             <artifactId>summer-jdbc</artifactId>
             <version>1.0.6</version>
         </dependency>

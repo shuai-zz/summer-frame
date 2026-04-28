@@ -1,0 +1,216 @@
+{
+  "version": 2,
+  "nodes": [
+    {
+      "type": "frame",
+      "id": "root",
+      "x": 20,
+      "y": 20,
+      "layout": "dagre",
+      "width": "fit-content",
+      "height": "fit-content",
+      "padding": 50,
+      "fillColor": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "borderWidth": 1,
+      "borderRadius": 16,
+      "layoutOptions": {
+        "rankdir": "LR",
+        "nodesep": 40,
+        "ranksep": 80,
+        "edges": [
+          ["start", "setContext", ""],
+          ["setContext", "scanPackages", ""],
+          ["scanPackages", "createDefs", ""],
+          ["createDefs", "configBeans", ""],
+          ["configBeans", "bppBeans", ""],
+          ["bppBeans", "normalBeans", ""],
+          ["normalBeans", "inject", ""],
+          ["inject", "init", ""],
+          ["init", "end", ""]
+        ]
+      },
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "start",
+          "text": "启动 IoC 容器",
+          "width": 130,
+          "height": 60,
+          "fillColor": "#E2E8F0",
+          "borderColor": "#64748B",
+          "borderWidth": 2,
+          "fontSize": 14,
+          "textColor": "#334155"
+        },
+        {
+          "type": "rect",
+          "id": "setContext",
+          "text": "设置全局上下文\nApplicationContextUtils.set()",
+          "width": 180,
+          "height": "fit-content",
+          "fillColor": "#F1F5F9",
+          "borderColor": "#94A3B8",
+          "borderWidth": 2,
+          "borderRadius": 8,
+          "fontSize": 12,
+          "textColor": "#475569"
+        },
+        {
+          "type": "frame",
+          "id": "zone_scan",
+          "layout": "dagre",
+          "layoutOptions": {
+            "isCluster": true,
+            "clusterTitle": "阶段一：扫描与定义",
+            "clusterTitleColor": "#2563EB"
+          },
+          "fillColor": "#EFF6FF",
+          "borderColor": "#60A5FA",
+          "borderWidth": 2,
+          "borderDash": "dashed",
+          "borderRadius": 20,
+          "children": [
+            {
+              "type": "rect",
+              "id": "scanPackages",
+              "text": "组件扫描\n@ComponentScan / @Import",
+              "width": 150,
+              "height": "fit-content",
+              "fillColor": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#1E40AF"
+            },
+            {
+              "type": "rect",
+              "id": "createDefs",
+              "text": "创建 BeanDefinition\n@Component / @Bean",
+              "width": 160,
+              "height": "fit-content",
+              "fillColor": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#1E40AF"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zone_create",
+          "layout": "dagre",
+          "layoutOptions": {
+            "isCluster": true,
+            "clusterTitle": "阶段二：Bean 实例化",
+            "clusterTitleColor": "#059669"
+          },
+          "fillColor": "#F0FDF4",
+          "borderColor": "#34D399",
+          "borderWidth": 2,
+          "borderDash": "dashed",
+          "borderRadius": 20,
+          "children": [
+            {
+              "type": "rect",
+              "id": "configBeans",
+              "text": "创建 @Configuration Bean\n(工厂方法，优先创建)",
+              "width": 170,
+              "height": "fit-content",
+              "fillColor": "#DCFCE7",
+              "borderColor": "#22C55E",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#166534"
+            },
+            {
+              "type": "rect",
+              "id": "bppBeans",
+              "text": "创建 BeanPostProcessor\n(AOP 代理处理器)",
+              "width": 170,
+              "height": "fit-content",
+              "fillColor": "#DCFCE7",
+              "borderColor": "#22C55E",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#166534"
+            },
+            {
+              "type": "rect",
+              "id": "normalBeans",
+              "text": "创建普通 Bean\n构造方法 / 工厂方法",
+              "width": 160,
+              "height": "fit-content",
+              "fillColor": "#DCFCE7",
+              "borderColor": "#22C55E",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#166534"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zone_assemble",
+          "layout": "dagre",
+          "layoutOptions": {
+            "isCluster": true,
+            "clusterTitle": "阶段三：依赖装配",
+            "clusterTitleColor": "#D97706"
+          },
+          "fillColor": "#FFFBEB",
+          "borderColor": "#FBBF24",
+          "borderWidth": 2,
+          "borderDash": "dashed",
+          "borderRadius": 20,
+          "children": [
+            {
+              "type": "rect",
+              "id": "inject",
+              "text": "依赖注入\n@Value / @Autowired",
+              "width": 150,
+              "height": "fit-content",
+              "fillColor": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#92400E"
+            },
+            {
+              "type": "rect",
+              "id": "init",
+              "text": "初始化 Bean\n@PostConstruct / afterInit",
+              "width": 160,
+              "height": "fit-content",
+              "fillColor": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "borderWidth": 2,
+              "borderRadius": 8,
+              "fontSize": 12,
+              "textColor": "#92400E"
+            }
+          ]
+        },
+        {
+          "type": "ellipse",
+          "id": "end",
+          "text": "容器就绪",
+          "width": 120,
+          "height": 55,
+          "fillColor": "#E2E8F0",
+          "borderColor": "#64748B",
+          "borderWidth": 2,
+          "fontSize": 14,
+          "textColor": "#334155"
+        }
+      ]
+    }
+  ]
+}
