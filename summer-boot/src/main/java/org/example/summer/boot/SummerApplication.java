@@ -7,6 +7,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
 import org.example.io.PropertyResolver;
+import org.example.summer.web.ContextLoaderInitializer;
 import org.example.utils.ClassPathUtils;
 import org.example.web.utils.WebUtils;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Paths;
+import java.util.Set;
 
 /**
  * @author zhaoshuai
@@ -62,6 +64,8 @@ public class SummerApplication {
         Context ctx = tomcat.addWebapp("", new File(webDir).getAbsolutePath());
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes", new File(baseDir).getAbsolutePath(), "/"));
+        ctx.setResources(resources);
+        ctx.addServletContainerInitializer(new ContextLoaderInitializer(configClass, propertyResolver), Set.of());
         tomcat.start();
         logger.info("Tomcat started at port {}...", port);
         return tomcat.getServer();
